@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"../dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shiyi.fileservice.dao.StoreFileDAO" >
+
+	<resultMap id="storeFileMap" type="StoreFile">
+		<id property="fileId" 				column="FileID" 				jdbcType="INTEGER"/>
+		<id property="fileName" 			column="FileName" 				jdbcType="VARCHAR"/>
+		<id property="fileSize" 			column="FileSize" 				jdbcType="INTEGER"/>
+		<id property="extension" 			column="Extension" 				jdbcType="VARCHAR"/>
+		<id property="fileType" 			column="FileType" 				jdbcType="INTEGER"/>
+		<id property="status" 				column="Status" 				jdbcType="INTEGER"/>
+		<id property="groupName" 			column="GroupName" 				jdbcType="VARCHAR"/>
+		<id property="realFileName" 		column="RelFileName" 			jdbcType="VARCHAR"/>
+		<id property="md5Value" 			column="MD5Value" 				jdbcType="VARCHAR"/>
+		<id property="url" 					column="Url" 					jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="findStoreFile" parameterType="String" resultMap="storeFileMap" >
+		SELECT FileID, FileName, FileSize, Extension, FileType, Status, GroupName, RelFileName, MD5Value, Url   
+		  FROM wj_tbl_storefile WHERE Status = 1 AND MD5Value = #{md5Value}
+	</select>
+	
+	<select id="findMd5ById" parameterType="int" resultMap="storeFileMap" >
+		SELECT FileID, FileName, FileSize, Extension, FileType, Status, GroupName, RelFileName, MD5Value, Url  
+		  FROM wj_tbl_storefile WHERE Status = 1 AND FileID = #{fileId}
+	</select>		
+	
+	<select id="findMd5ByIdWithoutStatus" parameterType="int" resultMap="storeFileMap" >
+		SELECT FileID, FileName, FileSize, Extension, FileType, Status, GroupName, RelFileName, MD5Value, Url   
+		  FROM wj_tbl_storefile WHERE FileID = #{fileId}
+	</select>	
+	
+	<insert id="insertStoreFile" parameterType="StoreFile"  useGeneratedKeys="true" keyProperty="fileId">
+		INSERT INTO wj_tbl_storefile(FileName, CreateTime, FileSize, Extension, FileType, Status, GroupName, RelFileName, MD5Value, Url) 
+			VALUES(#{fileName}, NOW(), #{fileSize}, #{extension}, #{fileType}, #{status}, #{groupName}, #{realFileName}, #{md5Value}, #{url})	
+	</insert>
+	
+	
+	<update id="deleteStoreFile" parameterType="java.lang.Integer">
+		UPDATE wj_tbl_storefile SET Status = 2 WHERE FileID = #{fileId}
+	</update>
+	
+
+	
+</mapper>

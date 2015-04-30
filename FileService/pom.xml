@@ -1,0 +1,208 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.shiyi</groupId>
+  <artifactId>FileService</artifactId>
+  <packaging>war</packaging>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>FileService Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<!--spring版本号-->
+	<spring.v>3.2.9.RELEASE</spring.v>
+	<!--mysql驱动版本号-->
+	<mysqldriver.v>5.1.31</mysqldriver.v>
+	<!--mybatis版本号-->
+	<mybatis.v>3.2.7</mybatis.v>	
+	<mybatis.spring.v>1.2.2</mybatis.spring.v>
+	<!--dbcp版本号-->
+	<dbcp.v>1.4</dbcp.v>
+	<!--log4j版本号-->
+    <slf4j.v>1.6.6</slf4j.v>
+    <log4j.v>1.2.17</log4j.v>	
+  </properties>
+  
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+	
+	<!-- XML工具包 -->
+	<dependency>
+		<groupId>dom4j</groupId>
+		<artifactId>dom4j</artifactId>
+		<version>1.6.1</version>
+	</dependency>
+	
+	<!-- rabbitmq客户端 -->
+	<dependency>
+        <groupId>org.springframework.amqp</groupId>
+        <artifactId>spring-rabbit</artifactId>
+        <version>1.3.6.RELEASE</version>
+    </dependency>
+	
+	<!--异步事件处理-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.7.2</version>
+        </dependency>	
+	
+	<!--spring-web依赖的json包-->
+	<dependency>
+		<groupId>org.codehaus.jackson</groupId>
+		<artifactId>jackson-mapper-asl</artifactId>
+		<version>1.7.9</version>
+	</dependency>
+	
+	
+	<!--fastdfs包-->
+	<dependency>
+	  <groupId>com.dfs</groupId>
+	  <artifactId>fastdfs</artifactId>
+	  <version>1.24</version>		
+	</dependency>
+	
+	<!-- 七牛存储包 -->
+	<dependency>
+    	<groupId>com.qiniu</groupId>
+    	<artifactId>sdk</artifactId>
+    	<version>[6.1.7, 6.999]</version>
+	</dependency>
+	
+	<!--工具包-->
+	<dependency>
+		<groupId>commons-collections</groupId>
+		<artifactId>commons-collections</artifactId>
+		<version>3.2.1</version>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.commons</groupId>
+		<artifactId>commons-lang3</artifactId>
+		<version>3.3.2</version>
+	</dependency>
+	
+	<!--增加json解析包-->
+	<dependency>
+		<groupId>com.alibaba</groupId>
+		<artifactId>fastjson</artifactId>
+		<version>1.1.41</version>
+	</dependency>
+	
+	<!--增加spring架构包-->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-context</artifactId>
+		<version>${spring.v}</version>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-jdbc</artifactId>
+		<version>${spring.v}</version>
+	</dependency>
+	
+	<!--添加spring mvc jar版本-->
+	<dependency>
+		<groupId>org.springframework</groupId>
+		<artifactId>spring-webmvc</artifactId>
+		<version>${spring.v}</version>
+	</dependency>
+	
+	<!--数据库连接jdbc-->
+	<dependency>
+		<groupId>mysql</groupId>
+		<artifactId>mysql-connector-java</artifactId>
+		<version>${mysqldriver.v}</version>
+	</dependency>
+	
+	<!--配置数据源的包-->	
+	<dependency>
+		<groupId>commons-dbcp</groupId>
+		<artifactId>commons-dbcp</artifactId>
+		<version>${dbcp.v}</version>
+	</dependency>	
+	
+	
+	<!--mybatis包-->
+	<dependency>
+		<groupId>org.mybatis</groupId>
+	  	<artifactId>mybatis</artifactId>
+  		<version>${mybatis.v}</version>
+  	</dependency>		
+	
+	<!--spring mybatis整合包-->
+	<dependency>
+  		<groupId>org.mybatis</groupId>
+  		<artifactId>mybatis-spring</artifactId>
+  		<version>${mybatis.spring.v}</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>commons-fileupload</groupId>
+		<artifactId>commons-fileupload</artifactId>
+		<version>1.3.1</version>
+	</dependency>
+		
+    <dependency>    
+        <groupId>javax.servlet</groupId>    
+        <artifactId>servlet-api</artifactId>    
+        <version>2.5</version>    
+        <scope>provided</scope>    
+    </dependency>
+
+	<!--日志包配置-->
+    <!-- log start -->
+	<dependency>
+		<groupId>ch.qos.logback</groupId>
+		<artifactId>logback-classic</artifactId>
+		<version>1.1.2</version>
+	</dependency>
+	
+	<dependency>
+		<groupId>org.slf4j</groupId>
+		<artifactId>log4j-over-slf4j</artifactId>
+		<version>1.7.6</version>
+	</dependency>
+		
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.v}</version>
+    </dependency>
+    <!-- log end -->	
+	
+  </dependencies>
+  
+    <build>
+    <finalName>FileService</finalName>
+	<plugins>
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+			<!-- <configuration>
+				<update>true</update>
+				<charest>utf8</charest>
+				<url>http://192.168.73.140:8080/manager/text</url>
+				<server>tomcat7</server>
+				<port>8080</port>
+				<path>/FileService</path>
+			</configuration>
+			-->
+		</plugin>
+		
+	</plugins>	
+  </build>
+  
+</project>

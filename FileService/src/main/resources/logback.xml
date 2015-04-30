@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration  -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user             -->
+<!--                                                                -->
+<!-- For professional support please see                            -->
+<!--    http://www.qos.ch/shop/products/professionalSupport         -->
+<!--                                                                -->
+<configuration scan="true" scanPeriod="120 seconds">
+  <property name="log.base" value="../uploadfile" />
+	<!--控制台输出-->
+  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
+    <encoder>
+      <pattern>%d %p [%thread][%c] - %m%n</pattern>
+    </encoder>
+  </appender>
+  
+  <!--文件输出-->
+  <appender name="D" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <File>${log.base}/debug_log.log</File>
+    <encoder>
+      <pattern>%d %p [%thread][%c] - %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>DEBUG</level>
+	  <onMatch>ACCEPT</onMatch>
+	  <onMismatch>DENY</onMismatch>
+    </filter>
+			
+		
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.base}/debug_log.%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+	  <maxHistory>3</maxHistory>	  
+      <timeBasedFileNamingAndTriggeringPolicy   class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+  
+  <appender name="E" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <Append>true</Append>
+    <File>${log.base}/error_log.log</File>
+    <encoder>
+      <pattern>%d %p [%thread][%c] - %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+	  <onMatch>ACCEPT</onMatch>
+	  <onMismatch>DENY</onMismatch>
+    </filter>
+			
+		
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log.base}/error_log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+	  <maxHistory>30</maxHistory>	  
+      <timeBasedFileNamingAndTriggeringPolicy   class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <maxFileSize>10MB</maxFileSize>
+      </timeBasedFileNamingAndTriggeringPolicy>
+    </rollingPolicy>
+  </appender>
+ 
+  <logger name="org.springframework" level="DEBUG" />
+  
+  <root level="DEBUG">
+    <appender-ref ref="stdout"/>
+    <appender-ref ref="D"/>
+	<appender-ref ref="E"/>
+  </root>
+  
+</configuration>

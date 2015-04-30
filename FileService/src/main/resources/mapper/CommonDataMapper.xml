@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"../dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shiyi.fileservice.dao.CommonDataDAO">
+	
+		
+	<!--二级缓存设置 15分钟刷新一次-->
+	<cache eviction="FIFO" flushInterval="900000" size="1048576" readOnly="true" />
+	
+	<resultMap id="fileServerMap" type="FileServer">
+		<id property="ip" 				column="FileServerIP" 			jdbcType="VARCHAR"/>
+		<id property="port" 			column="FileServerPort" 		jdbcType="INTEGER"/>
+		<id property="httpPort" 		column="FileServerHttpPort" 	jdbcType="INTEGER"/>
+		<id property="fileServerType" 	column="FileServerType" 		jdbcType="INTEGER"/>
+		<id property="status" 			column="FileServerStatus" 		jdbcType="INTEGER"/>
+		<id property="domain" 			column="FileServerDomain" 		jdbcType="VARCHAR"/>
+	</resultMap>
+		
+		
+	<select id="findFileServer" parameterType="int" resultType="FileServer" resultMap="fileServerMap" useCache="true">
+		SELECT FileServerIP, FileServerPort, FileServerHttpPort, FileServerType, FileServerStatus, FileServerDomain 
+		  FROM wj_tbl_fileserver WHERE FileServerType = #{status}
+	</select>
+
+	
+	<select id="findDownloadUrl" resultType="String" useCache="true">
+		SELECT ParameterValue FROM wj_tbl_parameter WHERE ParameterName = "Ktvmeinfo_downloadfileUrl"
+	</select>
+	
+	<select id="findQiniuConfig" resultType="java.util.HashMap" useCache="true">
+		SELECT ParameterName, ParameterValue FROM wj_tbl_parameter WHERE ParameterName like "Qiniu_%"
+	</select>
+	
+		
+</mapper>

@@ -1,0 +1,6 @@
+2015-04-30 18:07:32,194 INFO [main][com.shiyi.autoservice.util.UploadFile] - [上传URL接口=http://127.0.0.1:8080/FileService/uploadfile.do]准备上传...[C:\Users\Administrator\Documents\tmp\QQ图片20140811191537.jpg]
+2015-04-30 18:07:32,743 INFO [main][com.shiyi.autoservice.util.UploadFile] - 准备分片提交http数据
+2015-04-30 18:07:47,871 INFO [main][com.shiyi.autoservice.util.UploadFile] - 提交到上传http之后的状态码[200][OK]
+2015-04-30 18:07:47,875 INFO [main][com.shiyi.autoservice.util.UploadFile] - 
+{"errorcode":"10","fileid":4,"message":"The corresponding file has been uploaded"}
+2015-04-30 18:07:48,084 INFO [main][com.shiyi.autoservice.util.UploadFile] - 重复上传成功
