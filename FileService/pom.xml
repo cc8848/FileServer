@@ -22,6 +22,7 @@
 	<!--log4j版本号-->
     <slf4j.v>1.6.6</slf4j.v>
     <log4j.v>1.2.17</log4j.v>	
+    <java.version>1.8</java.version>
   </properties>
   
   

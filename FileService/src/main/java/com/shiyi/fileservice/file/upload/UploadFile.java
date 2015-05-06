@@ -168,8 +168,8 @@ public class UploadFile {
 					//插入数据库
 					int fileId = storeFileService.insertStoreFile(storeFile);
 					String fileUrl = String.format("%s?fileid=%d", commonService.findDownloadUrl(), fileId);
-
-					CommonUtils.notifyUploadQiniu(fileId, fileUrl, String.format("%s.%s", md5Value, polyFile.getFileExt()), md5Value, params.getFileType());
+					//屏蔽七牛
+					//CommonUtils.notifyUploadQiniu(fileId, fileUrl, String.format("%s.%s", md5Value, polyFile.getFileExt()), md5Value, params.getFileType());
 					
 					//如果是属于临时文件上传，则直接返回给其fileurl地址
 					if (params.isTmpFile()) {

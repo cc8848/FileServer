@@ -6,7 +6,7 @@
 	<display-name>Archetype Created Web Application</display-name>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:conf/spring.xml;classpath:conf/mybatis.xml;classpath:conf/spring-rabbitmq.xml</param-value>
+		<param-value>classpath:conf/spring.xml;classpath:conf/mybatis.xml;</param-value>
 	</context-param>
 
 
