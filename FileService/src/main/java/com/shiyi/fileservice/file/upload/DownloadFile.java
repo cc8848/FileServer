@@ -86,12 +86,12 @@ public class DownloadFile {
 	
 	public String getWWWCache() {
 		commonService = SpringContextUtils.getBean(CommonDataServiceImpl.class);
-		/*
+
 		String downUrl = commonService.findDownloadUrl();
-		
-		int idx = downUrl.lastIndexOf("/");
-		return downUrl.substring(0, idx) + "/cache/";*/
-		String downUrl = "/FileService/cache/";
+		if(!downUrl.endsWith("/")){
+			downUrl+= "/";
+		}
+			downUrl +="FileService/cache/";
 		return downUrl;
 	}
 	
