@@ -13,6 +13,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -141,7 +142,7 @@ public class UploadFileController {
 			@RequestParam(value="s", required=false) Integer s,
 			HttpServletRequest request, HttpServletResponse response) {
 				
-		DownloadFile downFile = new DownloadFile(fileid, CommonUtils.getRealPath(request) + "cache");
+		DownloadFile downFile = new DownloadFile(fileid, CommonUtils.getRealPath(request) + "cache",false);
 		response.reset();
 		if (downFile.getDownLoadParam()) {
 			
@@ -290,4 +291,70 @@ public class UploadFileController {
 		
 	}
 	
+	@RequestMapping(value="downloadfileIntranet", method=RequestMethod.GET)
+	public void downloadfileIntranet(@RequestParam("fileid") int fileid,
+			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+		DownloadFile downFile = new DownloadFile(fileid, CommonUtils.getRealPath(request) + "cache",true);
+		response.reset();
+		if (downFile.getDownLoadParam()) {		
+			//如果是需要重定向到本地缓存，则先下载到本地缓存，再进行重定向到本地缓存中
+			if (CommonUtils.isNeedLocation(downFile.getFileExt())) {
+				try {
+					String cacheFile = downFile.getCaheFilePath();
+					
+					if (StringUtils.isEmpty(cacheFile)) {
+						forward404(request, response);
+						return;
+					}  else {
+						response.sendRedirect(downFile.getWwwCacheUrl());
+					}
+					
+					downFile = null;
+				} catch (Exception e) {					
+				}
+				return ;
+			}
+
+			String fileName = downFile.getFileName();
+			
+			//从存储中下载文件流
+			String cacheFile = downFile.getCaheFilePath();
+			
+			if (StringUtils.isEmpty(cacheFile)) {
+				
+				forward404(request, response);
+				return ;
+				
+			} 			
+			downFile = null;
+			
+			response.setContentType("application/octet-stream;charset=UTF-8");
+		    response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+		    response.setContentLength((int) FileUtil.getFileSize(cacheFile));  
+		      
+		    //输出文件
+		    writeResponse(response, cacheFile, fileid);
+		    
+		} else {  //输出404错误。
+			forward404(request, response);
+			return;
+		}
+		
+	}
+	@RequestMapping(value="404", method=RequestMethod.GET)
+	public String filenotExist(){
+		return "404";
+	}
+	
+	/**
+	 * foward到404d页面
+	 * 
+	 * @author deng
+	 * @throws IOException
+	 * @throws ServletException
+	 */
+	private void forward404(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		request.getRequestDispatcher("404").forward(request, response);
+	}
 }

@@ -73,20 +73,24 @@ public class DownloadFile {
 	 * @param fileId，fileid
 	 * @param cacheDir，缓存目录
 	 */
-	public DownloadFile(int fileId, String cacheDir) {
+	public DownloadFile(int fileId, String cacheDir, boolean intranet) {
 		this.fileId = fileId;
 		this.cacheDir = cacheDir;
 		
 		FileUtil.createDir(this.cacheDir);
-		this.wwwCache = getWWWCache();
+		commonService = SpringContextUtils.getBean(CommonDataServiceImpl.class);
+		//是否是内网访问,如果是内网访问就不要加上域名前缀
+		if(intranet){
+			this.wwwCache = getRedirectPath();
+		}else{
+			this.wwwCache = getWWWCache();			
+		}
 		
 		fileService = SpringContextUtils.getBean(StoreFileServiceImpl.class);
 	}
 	
 	
 	public String getWWWCache() {
-		commonService = SpringContextUtils.getBean(CommonDataServiceImpl.class);
-
 		String downUrl = commonService.findDownloadUrl();
 		if(!downUrl.endsWith("/")){
 			downUrl+= "/";
@@ -236,5 +240,14 @@ public class DownloadFile {
 		return fileName;
 	}
 
-	
+	/**
+	 * 获取重定向地址
+	 * @author deng
+	 * @return
+	 */
+	public String getRedirectPath() {
+
+			String downUrl ="/FileService/cache/";
+		return downUrl;
+	}
 }
