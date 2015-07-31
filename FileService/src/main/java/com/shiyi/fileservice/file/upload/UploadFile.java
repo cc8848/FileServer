@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.shiyi.fileservice.file.FileUtil;
+import com.shiyi.fileservice.file.store.QiniuDir;
 import com.shiyi.fileservice.file.store.Store;
 import com.shiyi.fileservice.file.store.StoreResult;
 import com.shiyi.fileservice.file.upload.error.ChunkError;
@@ -138,9 +139,16 @@ public class UploadFile {
 				StoreFile storeFile = getStoreFile(fileParams, polyFile.getFileExt());
 				
 				Store upload = new Store(polyFile.getPolyFilePath(), newMd5Value, polyFile.getFileExt(), fileParams.getFileType());
-				//StoreResult resultParams = upload.saveAs();
-				StoreResult resultParams = upload.saveAsFds();
-				//上传该文件
+				StoreResult resultParams = null;
+				int fileType = fileParams.getFileType();
+				//判断是否用七牛上传
+				if(CommonUtils.isNeedQiniuUpload(fileType)){
+					resultParams = upload.saveAsQiniu();
+				}else{
+					//StoreResult resultParams = upload.saveAs();
+					resultParams = upload.saveAsFds();
+				}
+			
 
 				if (resultParams != null && resultParams.isUpdateResult()) {	
 					storeFile.setFileSize(polyFile.getFileSize());
@@ -153,9 +161,11 @@ public class UploadFile {
 						break;
 
 					case QINIU:
-						storeFile.setFileName(resultParams.getDirInfo().getRemoteFile());
-						storeFile.setGroupName(resultParams.getDirInfo().getGroupName());
-						
+						QiniuDir qiniuDir = resultParams.getqDirInfo();
+						//storeFile.setFileName(resultParams.getDirInfo().getRemoteFile());
+						//storeFile.setGroupName(resultParams.getDirInfo().getGroupName());
+						storeFile.setFileName(qiniuDir.getFileKey());
+						storeFile.setGroupName(qiniuDir.getGroup());
 						storeFile.setUrl(resultParams.getqDirInfo().getQiniuUrl());
 						break;
 						
@@ -182,7 +192,8 @@ public class UploadFile {
 					return new SuccessUpload(fileId).toString();
 				} else {
 					delTmpDir(cacheDir, md5Value);
-					return new FileServerError("upload storage error").toString();
+					//return new FileServerError("upload storage error").toString();
+					return new FileServerError(resultParams.getErrMessage()).toString();
 				}
 			
 			} else {

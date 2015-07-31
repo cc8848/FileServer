@@ -6,7 +6,7 @@
  * @since  2014年1月2日
  * @author malb
  */
-package com.shiyi.autoservice.util;
+package com.shiyi.upload;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -23,11 +23,14 @@ import java.net.URL;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.util.CharArrayBuffer;
 import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import com.shiyi.autoservice.util.CommonFunc;
+import com.shiyi.autoservice.util.FileDigest;
+import com.shiyi.autoservice.util.PostParameter;
 
 /**
  * @author malb
@@ -45,7 +48,7 @@ public class UploadFile {
 	private final static Logger log = Logger.getLogger(UploadFile.class);
 	private File uploadFile;
 
-	private String uploadUrl = null; // 上传接口地址
+	private static String uploadUrl = null; // 上传接口地址
 
 	private final String PARAM_FILEEXT = "fileext";
 	private final String PARAM_CHUNK = "chunk";
@@ -78,7 +81,7 @@ public class UploadFile {
 		// uploadUrl = "http://192.168.82.119:3003/FileService/uploadfile.do";
 		//uploadUrl = "http://192.168.82.68:5081/FileService/uploadfile.do";
 		//uploadUrl = "http://192.168.73.125:5081/FileService/uploadfile.do";
-		uploadUrl = "http://127.0.0.1:3003/FileService/uploadfile.do";
+
 		log.info(String.format("[上传URL接口=%s]准备上传...[%s]", uploadUrl, srcFile));
 	}
 
@@ -443,25 +446,7 @@ public class UploadFile {
 		return errorCode;
 	}
 
-	public static void main(String[] args) throws Exception {
-		int amount = 1;
-		for (int i = 0; i < amount; i++) {
-			long startime = 0L;
-			long endtime = 0L;
-			String filename1 = "c:\\Users\\Administrator\\Pictures\\aaa.jpg";
-			startime = System.nanoTime();
-			UploadFile upload = new UploadFile(filename1);
-			// boolean uploadResult = upload.upload(202);
-			boolean uploadResult = upload.uploadByPiece(2);
-			endtime = System.nanoTime();
-			System.out.println("Elapsed Time is "
-					+ ((endtime - startime) / 1000000000.0) + " seconds");
-			System.out.println(uploadResult);
-			//Thread.sleep(1000 * 30);
-		}
-		System.out.println("失败次数是" + scount + ",成功次数是：" + (amount-scount.intValue()));
-
-	}
+	
 
 	/**
 	 * @return the isRepeatUpload
@@ -495,4 +480,25 @@ public class UploadFile {
 		 }
 	    
 	 }
+	
+	public static void main(String[] args) throws Exception {
+		uploadUrl = "http://127.0.0.1:3003/FileService/uploadfile.do";
+		int amount = 1;
+		for (int i = 0; i < amount; i++) {
+			long startime = 0L;
+			long endtime = 0L;
+			String filename1 = "c:\\Users\\Administrator\\Pictures\\aaa.jpg";
+			startime = System.nanoTime();
+			UploadFile upload = new UploadFile(filename1);
+			// boolean uploadResult = upload.upload(202);
+			boolean uploadResult = upload.uploadByPiece(2);
+			endtime = System.nanoTime();
+			System.out.println("Elapsed Time is "
+					+ ((endtime - startime) / 1000000000.0) + " seconds");
+			System.out.println(uploadResult);
+			//Thread.sleep(1000 * 30);
+		}
+		System.out.println("失败次数是" + scount + ",成功次数是：" + (amount-scount.intValue()));
+
+	}
 }

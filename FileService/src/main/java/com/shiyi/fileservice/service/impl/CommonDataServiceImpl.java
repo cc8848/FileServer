@@ -92,4 +92,31 @@ public class CommonDataServiceImpl implements CommonDataService {
 		return result;
 	}
 
+	@Override
+	public HashMap<String, String> findNewQiniuConfig() {
+	HashMap<String, String> result = new HashMap<String, String>();
+		
+		List<HashMap<String, String>> list = commonDataDAO.findQiniuConfig(); 
+		if (list != null) {
+			for (HashMap<String, String> record : list) {
+				if (record.containsValue("Qiniu_appkey")) {
+					result.put("Qiniu_appkey", MapUtils.getString(record, "ParameterValue", ""));
+				}
+				
+				if (record.containsValue("Qiniu_appsecret")) {
+					result.put("Qiniu_appsecret", MapUtils.getString(record, "ParameterValue", ""));
+				}
+				
+				if (record.containsValue("Qiniu_bucket")) {
+					result.put("Qiniu_bucket", MapUtils.getString(record, "ParameterValue", ""));
+				}
+				if (record.containsValue("Qiniu_domain")) {
+					result.put("Qiniu_domain", MapUtils.getString(record, "ParameterValue", ""));
+				}
+			}
+		}
+		
+		return result;
+	}
+
 }

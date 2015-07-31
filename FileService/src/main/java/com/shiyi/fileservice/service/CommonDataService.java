@@ -26,5 +26,12 @@ public interface CommonDataService {
 	public String getHttpUrl(String groupName, String remoteFile);
 	
 	public HashMap<String, String> findQiniuConfig();
+	
+	/**
+	 * 从数据库获取七牛配置信息
+	 * @author deng
+	 * @return
+	 */
+	public HashMap<String, String> findNewQiniuConfig();
 
 }

@@ -9,7 +9,10 @@
 package com.shiyi.fileservice.file.store;
 
 
+import java.util.Map;
+
 import com.shiyi.fileservice.file.QiniuUpload;
+import com.shiyi.fileservice.file.QiniuUploadNew;
 import com.shiyi.fileservice.util.CommonUtils;
 import com.shiyi.fileservice.util.FastFdsClient;
 
@@ -119,6 +122,38 @@ public class Store {
 		
 
 		
+		return result;
+	}
+	
+	
+	/**
+	 * 把文件存储到七牛去存储
+	 * @author deng
+	 * @return
+	 */
+	public StoreResult saveAsQiniu() {
+		StoreResult result = new StoreResult();
+		result.setUpdateResult(false);
+		QiniuUploadNew uploader = new QiniuUploadNew(this.filePath);
+		Map<String, Object> uploadMap = uploader.upload(
+				CommonUtils.getPrefix(fileExt), md5Value, this.fileExt);
+		Integer ret = (Integer) uploadMap.get("ret");
+		//判断七牛上传是否成功
+		if(ret == 0){
+			QiniuDir info = new QiniuDir();
+			String key = (String) uploadMap.get("key");
+			String url = (String) uploadMap.get("url");
+			String bucket = (String) uploadMap.get("bucket");
+			result.setUpdateResult(true);
+			info.setFileKey(key);
+			info.setQiniuUrl(url);
+			info.setGroup(bucket);
+			result.setqDirInfo(info);
+			result.setSrcId(StoreType.QINIU);
+		}else{
+			String msg = (String) uploadMap.get("msg");
+			result.setErrMessage(msg);
+		}
 		return result;
 	}
 	
