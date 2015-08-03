@@ -36,6 +36,8 @@ public class CommonUtils {
 	private static final int FT_USERIMAGE = 2;  // 用户头像的图片类型值	
 	private static final int FT_MIXSOUND =  49;	//混音后文件
 	private static final int FT_CELLPHONE = -1;	//混音后文件
+	private static final int FT_IMAGE= 45;	//图片 素材，电子会员卡
+	private static final int FT_LOGO=32;	//场所LOGO
 	
 	private static List<String> extLst;
 	
@@ -164,7 +166,8 @@ public class CommonUtils {
 	 */
 	public static boolean isNeedQiniuUpload(int fileType) {
 		
-		return (fileType == FT_USERIMAGE || fileType == FT_MIXSOUND || fileType == FT_CELLPHONE);
+		return (fileType == FT_USERIMAGE || fileType == FT_MIXSOUND || fileType == FT_CELLPHONE || fileType == FT_IMAGE
+	|| fileType == FT_LOGO);
 		
 	}
 	
