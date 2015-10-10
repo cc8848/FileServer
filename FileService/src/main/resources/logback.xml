@@ -7,7 +7,7 @@
 <!-- For professional support please see                            -->
 <!--    http://www.qos.ch/shop/products/professionalSupport         -->
 <!--                                                                -->
-<configuration scan="true" scanPeriod="120 seconds">
+<configuration debug="false" scan="true" scanPeriod="60 minutes">
   <property name="log.base" value="../uploadfile" />
 	<!--控制台输出-->
   <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
@@ -24,11 +24,11 @@
     <encoder>
       <pattern>%d %p [%thread][%c] - %m%n</pattern>
     </encoder>
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+<!--     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>DEBUG</level>
 	  <onMatch>ACCEPT</onMatch>
 	  <onMismatch>DENY</onMismatch>
-    </filter>
+    </filter> -->
 			
 		
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -46,11 +46,11 @@
     <encoder>
       <pattern>%d %p [%thread][%c] - %m%n</pattern>
     </encoder>
-    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+<!--     <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
       <level>ERROR</level>
 	  <onMatch>ACCEPT</onMatch>
 	  <onMismatch>DENY</onMismatch>
-    </filter>
+    </filter> -->
 			
 		
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -62,9 +62,8 @@
     </rollingPolicy>
   </appender>
  
-  <logger name="org.springframework" level="DEBUG" />
   
-  <root level="DEBUG">
+  <root level="WARN">
     <appender-ref ref="stdout"/>
     <appender-ref ref="D"/>
 	<appender-ref ref="E"/>
