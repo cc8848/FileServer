@@ -482,7 +482,9 @@ public class UploadFile {
 	 }
 	
 	public static void main(String[] args) throws Exception {
-		uploadUrl = "http://127.0.0.1:3003/FileService/uploadfile.do";
+		//uploadUrl = "http://192.168.73.125:5081/FileService/uploadfile.do";
+		uploadUrl = "http://192.168.82.119:3003/FileService/uploadfile.do";
+		int  fileType= 45;
 		int amount = 1;
 		for (int i = 0; i < amount; i++) {
 			long startime = 0L;
@@ -491,7 +493,7 @@ public class UploadFile {
 			startime = System.nanoTime();
 			UploadFile upload = new UploadFile(filename1);
 			// boolean uploadResult = upload.upload(202);
-			boolean uploadResult = upload.uploadByPiece(2);
+			boolean uploadResult = upload.uploadByPiece(fileType);
 			endtime = System.nanoTime();
 			System.out.println("Elapsed Time is "
 					+ ((endtime - startime) / 1000000000.0) + " seconds");

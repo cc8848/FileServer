@@ -20,7 +20,7 @@
 	
 	<select id="findStoreFile" parameterType="String" resultMap="storeFileMap" >
 		SELECT FileID, FileName, FileSize, Extension, FileType, Status, GroupName, RelFileName, MD5Value, Url   
-		  FROM wj_tbl_storefile WHERE Status = 1 AND MD5Value = #{md5Value}
+		  FROM wj_tbl_storefile WHERE Status = 1 AND MD5Value = #{md5Value} order by CreateTime desc
 	</select>
 	
 	<select id="findMd5ById" parameterType="int" resultMap="storeFileMap" >

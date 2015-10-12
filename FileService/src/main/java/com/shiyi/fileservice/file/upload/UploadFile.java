@@ -301,11 +301,13 @@ public class UploadFile {
 		List<StoreFile> lst = storeFileService.findStoreFile(md5);
 		if (lst != null && lst.size() > 0) {
 			int fileId = lst.get(0).getFileId();
-			
-			resultJsonStr = params.isTmpFile() ? new RepeatUpload(fileId, String.format("%s?fileid=%d", commonService.findDownloadUrl(), fileId)).toString() : new RepeatUpload(lst.get(0).getFileId()).toString();
-			
-			lst.clear();
-			return false;
+			String url = lst.get(0).getUrl();
+			//只有URL不为空才不要重新上传，否则都要重新上传，因为原来的文件是fastdfs，现在改用七牛,七牛URL为下载地址
+			if(url != null && !url.equals("")){
+				resultJsonStr = params.isTmpFile() ? new RepeatUpload(fileId, String.format("%s?fileid=%d", commonService.findDownloadUrl(), fileId)).toString() : new RepeatUpload(lst.get(0).getFileId()).toString();
+				lst.clear();
+				return false;				
+			}
 		}
 		
 		//校验文件块数是否相同
