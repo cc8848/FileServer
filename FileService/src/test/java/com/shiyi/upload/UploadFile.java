@@ -57,7 +57,7 @@ public class UploadFile {
 	private final String PARAM_FILEMD5 = "md5value";
 	private final String PARAM_FILETYPE = "file_type";
 
-	private final int FILE_CHUNK_LEN = 1024 * 1024 * 1; // 每个分块的大小为1MB
+	private final int FILE_CHUNK_LEN = 1024 * 1024 * 10; // 每个分块的大小为1MB
 	private long totalSize;
 
 	private int errorCode = -1;
@@ -483,13 +483,13 @@ public class UploadFile {
 	
 	public static void main(String[] args) throws Exception {
 		//uploadUrl = "http://192.168.73.125:5081/FileService/uploadfile.do";
-		uploadUrl = "http://192.168.82.119:3003/FileService/uploadfile.do";
+		uploadUrl = "http://192.168.82.119:8080/FileService/uploadfile.do";
 		int  fileType= 45;
 		int amount = 1;
 		for (int i = 0; i < amount; i++) {
 			long startime = 0L;
 			long endtime = 0L;
-			String filename1 = "c:\\Users\\Administrator\\Pictures\\aaa.jpg";
+			String filename1 = "C:/Users/Administrator/Pictures/IMG_20151206_084237.jpg";
 			startime = System.nanoTime();
 			UploadFile upload = new UploadFile(filename1);
 			// boolean uploadResult = upload.upload(202);

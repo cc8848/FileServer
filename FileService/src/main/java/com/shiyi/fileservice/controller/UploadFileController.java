@@ -140,6 +140,7 @@ public class UploadFileController {
 	public void downloadfile(@RequestParam("fileid") int fileid,
 			@RequestParam(value="type", required=false, defaultValue="0") String typeid,
 			@RequestParam(value="s", required=false) Integer s,
+			@RequestParam(value="imageView2", required=false) String imageView2,
 			HttpServletRequest request, HttpServletResponse response) {
 				
 		DownloadFile downFile = new DownloadFile(fileid, CommonUtils.getRealPath(request) + "cache",false);
@@ -155,7 +156,12 @@ public class UploadFileController {
 			//如果是七牛存储，并且需要从七牛下载，则直接重定向到七牛存储
 			if (CommonUtils.isDownFromQiniu(s, downFile.getQiniuUrl())) {
 				try {
-					response.sendRedirect(downFile.getQiniuUrl());
+					String qiniuUrl=downFile.getQiniuUrl();
+					//加上七牛图片处理
+					if(imageView2 != null && imageView2.length()>0){
+						qiniuUrl += "?imageView2" + imageView2;
+					}
+					response.sendRedirect(qiniuUrl);
 				} catch (Exception e) {					
 				}
 				return ;
@@ -215,6 +221,11 @@ public class UploadFileController {
 	public ModelAndView downloadfileredirect(@PathVariable int fileid) {
 		return new ModelAndView(String.format("redirect:/downloadstorefile?fileid=%d", fileid));  
 		
+	}
+	@RequestMapping(value="downloadfileQiu", method=RequestMethod.GET)
+	public ModelAndView downloadfileQiu(@RequestParam String imageView2, @RequestParam("fileid") int fileid){
+		System.out.println(imageView2);
+		return new ModelAndView(String.format("redirect:/downloadstorefile?fileid=%d", fileid));  
 	}
 	
 
